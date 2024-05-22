@@ -27,8 +27,61 @@ func pretty(b Board) string {
 	return buf.String()
 }
 
-func verify(b Board) bool {
+func duplicated(c [10]int) bool {
+	for k, v := range c {
+		if k == 0 {
+			continue
+		}
+		if v >= 2 {
+			return true
+		}
+	}
 	return false
+}
+
+func verify(b Board) bool {
+	// 行チェック
+	for i := 0; i < 9; i++ {
+		// 出現回数
+		var c [10]int
+		for j := 0; j < 9; j++ {
+			c[b[i][j]]++
+			// fmt.Println(c)
+		}
+		if duplicated(c) {
+			return false
+		}
+	}
+
+	// 列チェック
+	for i := 0; i < 9; i++ {
+		// 出現回数
+		var c [10]int
+		for j := 0; j < 9; j++ {
+			c[b[j][i]]++
+			// fmt.Println(c)
+		}
+		if duplicated(c) {
+			return false
+		}
+	}
+
+	// 3x3チェック
+	for i := 0; i < 9; i += 3 {
+		for j := 0; j < 9; j += 3 {
+			var c [10]int
+			for row := i; row < i+3; row++ {
+				for col := j; col < j+3; col++ {
+					c[b[row][col]]++
+				}
+			}
+			if duplicated(c) {
+				return false
+			}
+		}
+	}
+
+	return true
 }
 
 func main() {
