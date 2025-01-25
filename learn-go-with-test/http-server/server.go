@@ -10,17 +10,17 @@ import (
 type PlayerStore interface {
 	GetPlayerScore(name string) int
 	RecordWin(name string)
-	GetLeague() []Player
-}
-
-type PlayerServer struct {
-	store PlayerStore
-	http.Handler
+	GetLeague() League
 }
 
 type Player struct {
 	Name string
 	Wins int
+}
+
+type PlayerServer struct {
+	store PlayerStore
+	http.Handler
 }
 
 const jsonContentType = "application/json"
