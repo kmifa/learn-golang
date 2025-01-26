@@ -4,7 +4,41 @@ import (
 	"slices"
 	"strings"
 	"testing"
+	"unicode"
 )
+
+func TestToUpper(t *testing.T) {
+	t.Run("upper case", func(t *testing.T) {
+		got := strings.ToUpper("hello, world!")
+		want := "HELLO, WORLD!"
+
+		assertGotWant(t, got, want)
+	})
+
+	t.Run("empty string", func(t *testing.T) {
+		got := strings.ToUpper("")
+		want := ""
+
+		assertGotWant(t, got, want)
+	})
+}
+
+// トルコ語やアゼルバイジャン語などの “i” の変換ルールが異なる言語で重要。普段は使わない
+func TestToUpperSpecial(t *testing.T) {
+	t.Run("upper case 'i'", func(t *testing.T) {
+		got := strings.ToUpperSpecial(unicode.TurkishCase, "i")
+		want := "İ"
+
+		assertGotWant(t, got, want)
+	})
+
+	t.Run("empty string", func(t *testing.T) {
+		got := strings.ToUpperSpecial(unicode.TurkishCase, "")
+		want := ""
+
+		assertGotWant(t, got, want)
+	})
+}
 
 func TestTrimPrefix(t *testing.T) {
 	t.Run("prefix found", func(t *testing.T) {
